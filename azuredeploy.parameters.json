@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "clusterName": {
+            "value": "myakscluster"
+        },
+        "location": {
+            "value": "canadacentral"
+        },
+        "dnsPrefix": {
+            "value": "myaksclusterdns"
+        },
+        "agentVMSize": {
+            "value": "Standard_B2s"
+        },
+        "linuxAdminUsername": {
+            "value": "azureuser"
+        },
+
+
+
+        "sshRSAPublicKey": {
+            "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDas+eUe0nLdi1w1ekkGkyfIKwGwA1LhHefqiEwA7O9Hkb+O0W5+/JW0BQQ3Fd0acigf2nhX2EyQTTDnaKCHgBEwSNi+9057UXMQWqzrYzkOCb7Uu1TfEU2YEsNUP5YiBj0n9txhiyA+FuLqKR8WWfCOvDMmZJIkiDyBMQoSE9SCwp7Nk+0mdRXQ0Xv9OM0EQtqlepLDF13D30eZU3EG6gTiHwX95RN0z6tWOCAEJHmZ5yZP5rim7aBNXw3i7rn1yrJpEt9gfCvJsM4EZw4zmo/7XCebuEu5tL4Fs2xyYp43DDEJJTltUICXFJNneJcin0gvnuNrklm/vF5sXvCT820k8qcIrByGNPsELYGnVvllIKNxj1VU12GmQ5OSENzPQCx8gliBlGZechElIrEljnOgNf+yR1FjGXcXBTd9MBBEyBi6fR4p2QOEIQDafAP4GD40vApIFKbjbXLjEHcvMDSdQyc4mQSnuLWIDNPlBXTQ82mrnBiCiXYtiFAiJ9PG2U= generated-by-azure"
+        }
+    }
+}

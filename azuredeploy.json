@@ -1,0 +1,90 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "clusterName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the Managed Cluster resource."
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "The location of the Managed Cluster resource."
+            }
+        },
+        "dnsPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Optional DNS prefix to use with hosted Kubernetes API server FQDN."
+            }
+        },
+        "agentVMSize": {
+            "type": "string",
+            "metadata": {
+                "description": "The size of the Virtual Machine for the agent pool nodes."
+            }
+        },
+        "linuxAdminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "User name for the Linux Virtual Machines."
+            }
+        },
+        "sshRSAPublicKey": {
+            "type": "string",
+            "metadata": {
+                "description": "SSH RSA public key string for the Linux Virtual Machines."
+            }
+        }
+    },
+    "variables": {
+        "defaultLocation": "canadacentral",
+        "defaultDnsPrefix": "[concat(parameters('clusterName'), 'dns')]",
+        "defaultAgentVMSize": "Standard_B2s",
+        "defaultLinuxAdminUsername": "azureuser"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ContainerService/managedClusters",
+            "apiVersion": "2022-05-02-preview",
+            "name": "[parameters('clusterName')]",
+            "location": "[coalesce(parameters('location'), variables('defaultLocation'))]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "dnsPrefix": "[coalesce(parameters('dnsPrefix'), variables('defaultDnsPrefix'))]",
+                "agentPoolProfiles": [
+                    {
+                        "name": "nodepool1",
+                        "count": 1,
+                        "vmSize": "[coalesce(parameters('agentVMSize'), variables('defaultAgentVMSize'))]",
+                        "osDiskSizeGB": 30,
+                        "osType": "Linux",
+                        "mode": "System"
+                    }
+                ],
+                "linuxProfile": {
+                    "adminUsername": "[coalesce(parameters('linuxAdminUsername'), variables('defaultLinuxAdminUsername'))]",
+                    "ssh": {
+                        "publicKeys": [
+                            {
+                                "keyData": "[parameters('sshRSAPublicKey')]"
+                            }
+                        ]
+                    }
+                },
+                "kubernetesVersion": "1.28.3",
+                "enableRBAC": true
+            }
+        }
+    ],
+    "outputs": {
+        "controlPlaneFQDN": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.ContainerService/managedClusters', parameters('clusterName'))).fqdn]"
+        }
+    }
+}
